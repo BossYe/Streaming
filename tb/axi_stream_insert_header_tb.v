@@ -52,6 +52,8 @@ module axi_stream_insert_header_tb;
 
         //2个周期后拉高
         #(2*CLOCK_PERIOD) rst_n = 1'b1;
+
+        #(200*CLOCK_PERIOD) $finish;
     end  
 
     integer seed;
@@ -133,14 +135,13 @@ module axi_stream_insert_header_tb;
             if(ready_in) begin
                 if(cnt <= 3) keep_in <= 4'b1111;
                 else if (cnt == 4) begin
-                    //case($random($time) % 4)
-                    //    0: keep_in = 4'b1111;
-                    //    1: keep_in = 4'b1110;
-                    //    2: keep_in = 4'b1100;
-                    //    3: keep_in = 4'b1000;
-                    //    default: keep_insert = 4'b0000;
-                    //endcase
-                    keep_in <= 4'b1000;                   
+                    case($random($time) % 4)
+                        0: keep_in = 4'b1111;
+                        1: keep_in = 4'b1110;
+                        2: keep_in = 4'b1100;
+                        3: keep_in = 4'b1000;
+                        default: keep_insert = 4'b0000;
+                    endcase               
                 end
             end
             else keep_in <= keep_in;
